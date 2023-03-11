@@ -1,0 +1,37 @@
+Identified header libraries:
+
+string_view
+cstddef
+optional
+io2d.h
+model.h
+cmath
+algorithm
+unordered_map
+iostream
+route_planner.h
+string
+route_model.h
+assert.h
+vector
+limits
+pugixml.hpp
+render.h
+fstream
+
+The following packages need to be installed:
+
+Cairo
+io2d
+GraphicsMagick
+
+
+target-link-libraries:
+
+pthread
+PUBLIC
+route_planner
+test
+gtest_main
+OSM_A_star_search
+pugixml

@@ -22,11 +22,11 @@ link_lib=set()
 for root, dirs, files in os.walk(project_directory):
     for file in files:
         # Ignore files that are not C++ source code files or CMakeLists.txt files
-        if not file.endswith(".cpp") and not file.endswith(".h") and file != "CMakeLists.txt":
+        if not file.endswith(".cpp") and not file.endswith(".cc") and not file.endswith(".cxx") and not file.endswith(".h") and not file.endswith(".hpp") and not file.endswith(".hh") and not file.endswith(".hxx") and not file.endswith(".cu") and not file.endswith(".cuh") and file != "CMakeLists.txt":
             continue
 
         # Process C++ source code files
-        if file.endswith(".cpp") or file.endswith(".h"):
+        if file.endswith(".cpp") or file.endswith(".cc") or file.endswith(".cxx") or file.endswith(".cu") or file.endswith(".h") or file.endswith(".hpp") or file.endswith(".hh") or file.endswith(".hxx") or file.endswith(".cuh"):
             with open(os.path.join(root, file), "r") as f:
                 content = f.read()
                 library_names = re.findall(library_regex, content)

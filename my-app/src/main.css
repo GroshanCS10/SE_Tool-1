@@ -83,6 +83,10 @@ background-color: #347d15;
     margin-top: 6%;
 }
 
+.Data{
+    color: #EDE9D5;
+}
+
 .box {
     overflow-y: scroll;
     width: 30%;
@@ -100,26 +104,42 @@ background-color: #347d15;
     border-radius: 5px;
     padding: 10px;
     text-align: center;
-    width:fit-content;
     margin-bottom: 10px;
 }
 
+.definition h3{
+    color: #EDE9D5;
+    font-size: 16px;
+    font-family: Poppins,'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular','Lucida Sans', Geneva, Verdana, sans-serif;
+    font-weight:bolder;
+}
 
+.definition p {
+    color: #EDE9D5;
+    font-size: 16px;
+    font-family: Poppins,'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular','Lucida Sans', Geneva, Verdana, sans-serif;
+    font-weight: lighter;
+}
+
+.definitions-container{
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
 
 .box::-webkit-scrollbar {
     width: 6px;
     height: 6px;
-  }
-  
-  .box::-webkit-scrollbar-thumb {
+}
+
+.box::-webkit-scrollbar-thumb {
     background-color: #6CC644;
     border-radius: 5px;
-  }
-  
-  .box::-webkit-scrollbar-track {
+}
+
+.box::-webkit-scrollbar-track {
     background-color: #646060;
-  }
-  
+}
 
 .introtext{
     color: #EDE9D5;

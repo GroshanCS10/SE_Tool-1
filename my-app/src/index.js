@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './upload.css';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Upload from './upload';
 
 export default function App() {
   return (
     <div>
+      <h1>Hello ! This is Bharat Sai</h1>
       <Upload/>
     </div>
   )

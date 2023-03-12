@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './upload.css';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -31,15 +30,11 @@ function App() {
 
   return (
     <div>
-      <h1 className='title1'>Dependalytics</h1>
-    <div className="container">
-      <h2 className="title">Please upload zipped folder here</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <label htmlFor="fileInput">Select a file:</label>
-        <input type="file" id="fileInput" onChange={handleFileInputChange} />
+      <h1>File Uploader</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="file" onChange={handleFileInputChange} />
         <button type="submit">Upload</button>
       </form>
-    </div>
     </div>
   );
 }

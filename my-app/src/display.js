@@ -11,7 +11,7 @@ export default function DataDisplay(props) {
         </div>
         <ul>
           {identified_header_libraries.map((library, index) => (
-            <li key={index}>{library}</li>
+            <li key={index} className='list'>{library}</li>
           ))}
         </ul>
       </div>
@@ -22,7 +22,7 @@ export default function DataDisplay(props) {
         </div>
         <ul>
           {required_packages.map((pkg, index) => (
-            <li key={index}>{pkg}</li>
+            <li key={index} className='list'>{pkg}</li>
           ))}
         </ul>
       </div>
@@ -33,7 +33,7 @@ export default function DataDisplay(props) {
         </div>
         <ul>
           {target_link_libraries.map((library, index) => (
-            <li key={index}>{library}</li>
+            <li key={index} className='list'>{library}</li>
           ))}
         </ul>
       </div>

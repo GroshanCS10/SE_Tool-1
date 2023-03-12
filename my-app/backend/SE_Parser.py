@@ -1,22 +1,24 @@
+# importing necessary libraries
 import os
 import re
 import sys
 
+# Defining regular expressions to search for libraries & dependencies in code and CMakeLists.txt files
 library_regex = r'#include\s*(?:<(.+?)>|\"(.+?)\")'
 find_package_regex = r'find_package\s*\(\s*([^\s\)]+)'
 link_regex = r'target_link_libraries\((.*)\)'
 
-# Get the path to the project's source code directory and CMakeLists.txt file
+# Get the path to the project's source code directory and CMakeLists.txt file from command line arguments
 if len(sys.argv) < 3:
     print("Usage: python analyze_code.py <project_path> <cmake_file_path>")
     sys.exit(1)
 project_path = sys.argv[1]
 cmake_file_path = sys.argv[2]
 
-# Define a set to store the names of the identified libraries
+# Defining a set to store the names of the identified libraries
 libraries = set()
 
-# Loop through each file in the project's source code directory
+# Looping through each file in the project's source code directory
 for root, dirs, files in os.walk(project_path):
     for file in files:
         # Ignore files that are not C++ source code files
@@ -33,7 +35,7 @@ for root, dirs, files in os.walk(project_path):
                     if lib_name:
                         libraries.add(lib_name)
            
-# Print the set of identified libraries
+# Printing the set of identified libraries to console and observations.txt file
 print()
 print("Identified header libraries:")
 output_file = "observations.txt"
@@ -45,8 +47,9 @@ with open(output_file, "w") as f:
       print(lib)
 print(f"Identified libraries written to {output_file}")
 
+# Defining a set to store the names of the required packages
 package_names = set()
-# Open the file and search for find_package statements and package names
+# Opening the CMakeLists.txt file and search for find_package statements and package names
 with open(cmake_file_path, "r") as f:
     content = f.read()
     find_package_statements = re.findall(find_package_regex, content)
@@ -54,6 +57,8 @@ with open(cmake_file_path, "r") as f:
     package_names.update(find_package_statements)
 
 #output_file = "observations.txt"
+
+# prints the set of required packages to console and appends to the output file
 print()
 print("Required packages\n")
 with open(output_file, "a") as f:
@@ -79,6 +84,7 @@ with open(output_file, "a") as f:
     for lib in libraries:
         f.write(lib + "\n")
         print(lib)
+
 
 # Print a confirmation message
 print(f"target-link-library names written to {output_file}")

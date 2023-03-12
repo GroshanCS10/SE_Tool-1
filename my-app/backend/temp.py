@@ -1,17 +1,19 @@
+#importing necessary libraries
 import os
 import re
 import sys
 import json
 
+# Regular expressions to identify #include statements, find_package statements, and target_link_libraries statements
 library_regex = r'#include\s*(?:<(.+?)>|\"(.+?)\")'
 find_package_regex = r'find_package\s*\(\s*([^\s\)]+)'
 link_regex = r'target_link_libraries\((.*)\)'
 
-# Get the path to the project directory
+# Checking if a project directory is specified as a command-line argument
 if len(sys.argv) < 2:
     print("Usage: python analyze_code.py <project_directory>")
     sys.exit(1)
-project_directory = sys.argv[1]
+project_directory = sys.argv[1]   # Get the path to the project directory
 
 # Define sets to store the names of the identified libraries and packages
 libraries = set()
@@ -38,10 +40,11 @@ for root, dirs, files in os.walk(project_directory):
         else:
             cmake_file_path = os.path.join(root, file)
             with open(cmake_file_path, "r") as f:
-                content = f.read()
-                find_package_statements = re.findall(find_package_regex, content)
+                content = f.read() # Reads the contents of the file
+                find_package_statements = re.findall(find_package_regex, content) # Finds all find_package statements in the file
                 link_names = re.findall(link_regex, content)
-                package_names.update(find_package_statements)
+                package_names.update(find_package_statements)  # Add any package names to the set of required packages
+                # Loops through the matches and add any library names to the set of target-link-libraries
                 for match in link_names:
                     for lib_name in match.split():
                         if lib_name:

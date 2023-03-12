@@ -8,7 +8,8 @@ const { spawn } = require('child_process');
 //creating express app middleware
 const app = express();
 
-// Creating a storage object with diskStorage and defining the storage location and filename for uploaded files
+/* This is a multer storage option. It is used to specify the destination folder and the name of the
+file to be uploaded. */
 const storage = multer.diskStorage({
   destination: 'uploads/',
   filename: (req, file, cb) => {
@@ -43,18 +44,18 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         containsCppFiles = true;
         break;
       } else if (zipEntry.entryName.endsWith('.java')) {   // Reject zip folder if it contains Java files
-        
+
         //fs.unlinkSync(file.path);
         //return res.status(400).send('Zip folder contains Java files');
         containsCppFiles = false;
       }
-      else if (zipEntry.entryName.endsWith('.py')){    // Reject zip folder if it contains python files
+      else if (zipEntry.entryName.endsWith('.py')) {    // Reject zip folder if it contains python files
         //fs.unlinkSync(file.path);
         //return res.status(400).send('Zip folder contains Python files');
         containsCppFiles = false;
       }
     }
-      // cc
+    // cc
     // for (const zipEntry of zipEntries) {
     //   const entryPath = zipEntry.entryName.split('/');
     //   if (entryPath.includes('src')) {
@@ -66,11 +67,11 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     //     break;
     //   }
     // }
-    
+
     if (containsCppFiles) {
-      
+
       zip.extractAllTo(path.join(__dirname, '/', 'uploads', originalName.split('.')[0]));   // Extract the contents of the zip archive to uploads directory
-      
+
       fs.unlinkSync(file.path);  // Delete the zip file after extraction
       //const srcPath = path.join(__dirname, 'uploads', originalName.split('.')[0], srcFolderPath);
       //const cmakePath = path.join(__dirname, 'uploads', originalName.split('.')[0], cmakeFilePath);
@@ -99,21 +100,21 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
               message: 'Error reading observations file',
             });
           }
-      
+
           const observations = JSON.parse(data);
-        return res.status(200).json({
-          message: 'Zip file extracted successfully',
-          originalName: originalName,
-          fileType: fileType,
-          filename: file.filename,
-          projectPath: projectpath,
-          observations: observations,
-          //srcPath: srcPath,
-          //cmakePath: cmakePath,
-          //output: output
+          return res.status(200).json({
+            message: 'Zip file extracted successfully',
+            originalName: originalName,
+            fileType: fileType,
+            filename: file.filename,
+            projectPath: projectpath,
+            observations: observations,
+            //srcPath: srcPath,
+            //cmakePath: cmakePath,
+            //output: output
+          });
         });
       });
-    });
     } else {
       fs.unlinkSync(file.path);
       return res.status(400).json({

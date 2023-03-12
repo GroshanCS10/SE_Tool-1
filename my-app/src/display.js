@@ -6,7 +6,9 @@ export default function DataDisplay(props) {
   return (
     <div className="div-container">
       <div className="box">
+        <div className='subbox'>
         <h2>Identified Header Libraries</h2>
+        </div>
         <ul>
           {identified_header_libraries.map((library, index) => (
             <li key={index}>{library}</li>
@@ -15,7 +17,9 @@ export default function DataDisplay(props) {
       </div>
 
       <div className="box">
+      <div className='subbox'>
         <h2>Required Packages</h2>
+        </div>
         <ul>
           {required_packages.map((pkg, index) => (
             <li key={index}>{pkg}</li>
@@ -24,7 +28,9 @@ export default function DataDisplay(props) {
       </div>
 
       <div className="box">
+      <div className='subbox'>
         <h2>Target Link Libraries</h2>
+        </div>
         <ul>
           {target_link_libraries.map((library, index) => (
             <li key={index}>{library}</li>

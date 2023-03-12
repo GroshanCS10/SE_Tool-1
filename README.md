@@ -26,11 +26,13 @@ Contains complete Knowledge about Release 1 of Tool Development
 - This is done by extracting the zip folder and parsing the extracted files in the folder in the backend. <br> 
 
 ## **How our website looks?**
-
+*Here is the image Before Uploading zip* <br>
 
 ****
+![alt text](https://github.com/GroshanCS10/SE_Tool-1/blob/main/my-app/Images/Screenshot%20(107).png)
 
-
+*After Uploading the zip folder* <br>
+![alt text](https://github.com/GroshanCS10/SE_Tool-1/blob/main/my-app/Images/Screenshot%20(108).png)
 
 
  

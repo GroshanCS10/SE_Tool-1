@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import Display from './display';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [data, setData] = useState(null);
 
   const handleFileInputChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -23,6 +25,7 @@ function App() {
     try {
       const response = await axios.post('/api/upload', formData);
       console.log(response.data);
+      setData(response.data.observations);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -35,6 +38,7 @@ function App() {
         <input type="file" onChange={handleFileInputChange} />
         <button type="submit">Upload</button>
       </form>
+      {data && <Display data={data} />}
     </div>
   );
 }

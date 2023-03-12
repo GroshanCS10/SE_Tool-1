@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DataDisplay(props) {
+export default function DataDisplay(props) {
   const { identified_header_libraries, required_packages, target_link_libraries } = props.data;
 
   return (
@@ -56,5 +56,3 @@ function DataDisplay(props) {
     </div>
   );
 }
-
-export default DataDisplay;

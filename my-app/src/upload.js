@@ -49,6 +49,21 @@ function App() {
         </form>
       </div>
       {data && <Display data={data} />}
+
+      <div class="definitions-container">
+  <div class="definition">
+    <h3>Header Files</h3>
+    <p>A header file in C++ is a file that contains declarations of various program elements such as functions, classes, and variables, which can be utilized in a C++ program.</p>
+  </div>
+  <div class="definition">
+    <h3>Target Link Libraries</h3>
+    <p>Target-link dependencies refer to the relationship between a software target and the libraries or objects it depends on to be built successfully. Managing target-link dependencies is an important part of software development, as it ensures that the final output is complete and functional. Build systems such as Make, CMake, and Gradle provide tools for specifying and managing these dependencies, making it easier for developers to build complex software projects with multiple targets and dependencies.</p>
+  </div>
+  <div class="definition">
+    <h3>External Library Dependencies</h3>
+    <p>When developing software, an External library dependency occurs when a project or application relies on an external library or module for its proper functioning. However, managing these dependencies can be challenging, as they may introduce version compatibility issues, security vulnerabilities, or licensing conflicts. To manage external library dependencies, developers use package managers or build systems that automate the process of downloading, installing, and linking the required libraries. Some popular package managers include npm, pip, and Maven, while build systems such as CMake, Make, and Gradle provide tools for specifying and managing external library dependencies in build scripts.</p>
+  </div>
+</div>
     </div>
   );
 }

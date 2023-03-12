@@ -16,15 +16,15 @@ function App() {
     e.preventDefault();
 
     if (!selectedFile) {
-      console.log('Please select a file');
+      console.log("Please select a file");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    formData.append("file", selectedFile);
 
     try {
-      const response = await axios.post('/api/upload', formData);
+      const response = await axios.post("/api/upload", formData);
       console.log(response.data);
       setData(response.data.observations);
     } catch (error) {

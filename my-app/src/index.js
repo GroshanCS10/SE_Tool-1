@@ -5,8 +5,12 @@ import Upload from './upload';
 
 export default function App() {
   return (
-    <div classname='main'>
-      <Upload/>
+
+    <div>
+      <h1 className='heading'>DEPENDALYTICS</h1>
+      <div classname='main'>
+        <Upload/>
+      </div>
     </div>
   )
 }

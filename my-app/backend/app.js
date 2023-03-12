@@ -60,6 +60,7 @@ const multer = require('multer');
 const path = require('path');
 const AdmZip = require('adm-zip');
 const fs = require('fs');
+const { spawn } = require('child_process');
 
 const app = express();
 
@@ -83,33 +84,56 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   if (fileType === 'application/zip' || fileType === 'application/x-zip-compressed') {
     const zip = new AdmZip(file.path);
     const zipEntries = zip.getEntries();
-    let containsCppFiles = false;
-    for (let i = 0; i < zipEntries.length; i++) {
-      const zipEntry = zipEntries[i];
-      if (zipEntry.entryName.endsWith('.cpp')) {
-        containsCppFiles = true;
+    let srcFolderPath;
+    let cmakeFilePath;
+    
+    for (const zipEntry of zipEntries) {
+      const entryPath = zipEntry.entryName.split('/');
+      if (entryPath.includes('src')) {
+        srcFolderPath = zipEntry.entryName;
+      } else if (entryPath[entryPath.length - 1] === 'CMakeLists.txt') {
+        cmakeFilePath = zipEntry.entryName;
+      }
+      if (srcFolderPath && cmakeFilePath) {
         break;
-      } else if (zipEntry.entryName.endsWith('.java')) {
-        // Reject zip folder if it contains Java files
-        fs.unlinkSync(file.path);
-        return res.status(400).send('Zip folder contains Java files');
       }
     }
-    if (containsCppFiles) {
+    
+    if (srcFolderPath && cmakeFilePath) {
       zip.extractAllTo(path.join(__dirname, '/', 'uploads', originalName.split('.')[0]));
       // Delete the zip file after extraction
       fs.unlinkSync(file.path);
-      return res.status(200).json({
-        message: 'Zip file extracted successfully',
-        originalName: originalName,
-        fileType: fileType,
-        filename: file.filename,
-        path: path.join(__dirname, '..', 'uploads', originalName.split('.')[0])
+      const srcPath = path.join(__dirname, 'uploads', originalName.split('.')[0], srcFolderPath);
+      const cmakePath = path.join(__dirname, 'uploads', originalName.split('.')[0], cmakeFilePath);
+
+      // Execute the Python code as a child process
+      const pythonProcess = spawn('python', ['SE_Parser.py', srcPath, cmakePath]);
+      let output = '';
+
+      pythonProcess.stdout.on('data', (data) => {
+        output += data;
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+      });
+
+      pythonProcess.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+        return res.status(200).json({
+          message: 'Zip file extracted successfully',
+          originalName: originalName,
+          fileType: fileType,
+          filename: file.filename,
+          srcPath: srcPath,
+          cmakePath: cmakePath,
+          output: output
+        });
       });
     } else {
-      // Reject zip folder if it does not contain C++ files
-      fs.unlinkSync(file.path);
-      return res.status(400).send('Zip folder does not contain C++ files');
+      return res.status(400).json({
+        message: 'Zip file does not contain the required files',
+      });
     }
   } else {
     return res.status(200).json({

@@ -1,37 +1,37 @@
 Identified header libraries:
 
-string_view
-cstddef
-optional
-io2d.h
-model.h
-cmath
-algorithm
-unordered_map
 iostream
 route_planner.h
+model.h
+string_view
 string
-route_model.h
+render.h
+cmath
+algorithm
 assert.h
+unordered_map
 vector
 limits
+route_model.h
+io2d.h
 pugixml.hpp
-render.h
 fstream
+cstddef
+optional
 
 The following packages need to be installed:
 
-Cairo
 io2d
 GraphicsMagick
+Cairo
 
 
 target-link-libraries:
 
 pthread
-PUBLIC
-route_planner
-test
-gtest_main
 OSM_A_star_search
+gtest_main
 pugixml
+PUBLIC
+test
+route_planner

@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import axios from 'axios';
 import Display from './display';
+import './main.css';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -33,11 +34,16 @@ function App() {
 
   return (
     <div>
-      <h1>File Uploader</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleFileInputChange} />
-        <button type="submit">Upload</button>
-      </form>
+      <div className='titlecontainer'>
+        <h1 className='title'>DEPENDALYTICS</h1>
+      </div>
+      <div className="form-container">
+        <h2 className='fileuploader'>FILE UPLOADER</h2>
+        <form className="form" onSubmit={handleSubmit}>
+          <input type="file" onChange={handleFileInputChange} />
+          <button type="submit">Upload</button>
+        </form>
+      </div>
       {data && <Display data={data} />}
     </div>
   );

@@ -2,7 +2,7 @@ import os
 import re
 import sys
 
-library_regex = r'#include\s+(?:<(.+?)>|\"(.+?)\")'
+library_regex = r'#include\s*(?:<(.+?)>|\"(.+?)\")'
 find_package_regex = r'find_package\s*\(\s*([^\s\)]+)'
 link_regex = r'target_link_libraries\((.*)\)'
 

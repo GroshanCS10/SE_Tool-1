@@ -5,6 +5,7 @@ import './main.css';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [link, setLink] = useState("");
   const [data, setData] = useState(null);
 
   const handleFileInputChange = (e) => {
@@ -32,6 +33,30 @@ function App() {
     }
   };
 
+  const handleLinkInputChange = (e) => {
+    setLink(e.target.value);
+    console.log(e.target.value);
+  };
+  
+  const handleLinkSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!link) {
+      console.log("Please enter a link");
+      return;
+    }
+  
+    try {
+      console.log(link);
+      const response = await axios.post("/api/link", { link: link });
+      console.log(response.data);
+      setData(response.data.observations);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+  
+
   return (
     <div>
       <div className='titlecontainer'>
@@ -46,6 +71,11 @@ function App() {
         <form className="form" onSubmit={handleSubmit}>
           <input type="file" onChange={handleFileInputChange} />
           <button type="submit">Upload</button>
+        </form>
+
+        <form className="link" onSubmit={handleLinkSubmit}>
+          <input type="text" onChange={handleLinkInputChange} />
+          <button type="submit">Submit</button>
         </form>
       </div>
       <div className='Data'>

@@ -1,13 +1,17 @@
+
 // Importing necessary packages
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const AdmZip = require('adm-zip');
 const fs = require('fs');
+//const fetch = require('node-fetch');
+//const fetch = import('node-fetch');
 const { spawn } = require('child_process');
+const bodyParser = require('body-parser');
 //creating express app middleware
 const app = express();
-
+app.use(bodyParser.json());
 /* This is a multer storage option. It is used to specify the destination folder and the name of the
 file to be uploaded. */
 const storage = multer.diskStorage({
@@ -33,9 +37,6 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     console.log(fileType)
     const zip = new AdmZip(file.path);  // extracting files from zip archive
     const zipEntries = zip.getEntries();
-    //let srcFolderPath;
-    //let cmakeFilePath;
-    //cc
     let containsCppFiles = false;
     // checking if there are any c++ files in the zip folder using a loop
     for (let i = 0; i < zipEntries.length; i++) {
@@ -44,37 +45,18 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         containsCppFiles = true;
         break;
       } else if (zipEntry.entryName.endsWith('.java')) {   // Reject zip folder if it contains Java files
-
-        //fs.unlinkSync(file.path);
-        //return res.status(400).send('Zip folder contains Java files');
         containsCppFiles = false;
       }
       else if (zipEntry.entryName.endsWith('.py')) {    // Reject zip folder if it contains python files
-        //fs.unlinkSync(file.path);
-        //return res.status(400).send('Zip folder contains Python files');
         containsCppFiles = false;
       }
     }
-    // cc
-    // for (const zipEntry of zipEntries) {
-    //   const entryPath = zipEntry.entryName.split('/');
-    //   if (entryPath.includes('src')) {
-    //     srcFolderPath = zipEntry.entryName;
-    //   } else if (entryPath[entryPath.length - 1] === 'CMakeLists.txt') {
-    //     cmakeFilePath = zipEntry.entryName;
-    //   }
-    //   if (srcFolderPath && cmakeFilePath) {
-    //     break;
-    //   }
-    // }
 
     if (containsCppFiles) {
 
       zip.extractAllTo(path.join(__dirname, '/', 'uploads', originalName.split('.')[0]));   // Extract the contents of the zip archive to uploads directory
 
-      fs.unlinkSync(file.path);  // Delete the zip file after extraction
-      //const srcPath = path.join(__dirname, 'uploads', originalName.split('.')[0], srcFolderPath);
-      //const cmakePath = path.join(__dirname, 'uploads', originalName.split('.')[0], cmakeFilePath);
+      fs.unlinkSync(file.path);
       const projectpath = path.join(__dirname, '/', 'uploads', originalName.split('.')[0])
       // Execute the Python code as a child process
       const pythonProcess = spawn('python', ['temp.py', projectpath]);
@@ -109,9 +91,6 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
             filename: file.filename,
             projectPath: projectpath,
             observations: observations,
-            //srcPath: srcPath,
-            //cmakePath: cmakePath,
-            //output: output
           });
         });
       });
@@ -131,6 +110,148 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     });
   }
 });
+
+
+app.post('/api/link', async(req, res) => {
+  const {link} = req.body;
+  console.log(`Received link: ${link}`);
+
+  try {
+    // Extract the username and repository name from the link
+    const [, , , username, repository] = link.split('/');
+    const apiUrl = `https://api.github.com/repos/${username}/${repository}/zipball`;
+
+    // Make a request to the GitHub API to get the download URL for the repository
+    const fetch = await import('node-fetch');
+    const response = await fetch.default(apiUrl);
+    //console.log(response);
+    if (!response.ok) {
+      return res.status(400).json({
+        message: 'Error fetching zip file from GitHub',
+      });
+    }
+
+    // Read the response body as a buffer
+    const buffer = await response.buffer();
+
+    // Save the buffer to a zip file in the uploads folder
+    const filename = `${repository}.zip`;
+    console.log(filename);
+    const file_path = path.join(__dirname, 'uploads', filename);
+    console.log(file_path);
+    fs.writeFile(file_path, buffer, err => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error writing file');
+      }
+      const file = {
+        originalname: filename,
+        mimetype: 'application/x-zip-compressed',
+        path: file_path
+      };
+      const originalName = file.originalname;
+      console.log('original name: ' + originalName)
+      const fileType = file.mimetype;
+      console.log('file type: ' + fileType)
+      const filepath = file.path;
+
+
+      if (fileType === 'application/zip' || fileType === 'application/x-zip-compressed') {
+        console.log(fileType)
+        const zip = new AdmZip(file.path);  // extracting files from zip archive
+        const zipEntries = zip.getEntries();
+        let containsCppFiles = false;
+        // checking if there are any c++ files in the zip folder using a loop
+        for (let i = 0; i < zipEntries.length; i++) {
+          const zipEntry = zipEntries[i];
+         // console.log(zipEntry);
+          if (zipEntry.entryName.endsWith('.cpp')) {
+            console.log(zipEntry.entryName)
+            containsCppFiles = true;
+            break;
+          } else if (zipEntry.entryName.endsWith('.java')) {   // Reject zip folder if it contains Java files
+            containsCppFiles = false;
+          }
+          else if (zipEntry.entryName.endsWith('.py')) {    // Reject zip folder if it contains python files
+            containsCppFiles = false;
+          }
+        }
+    
+        if (containsCppFiles) {
+    
+          zip.extractAllTo(path.join(__dirname, '/', 'uploads', originalName.split('.')[0]));   // Extract the contents of the zip archive to uploads directory
+    
+          fs.unlinkSync(file.path);
+          const projectpath = path.join(__dirname, '/', 'uploads', originalName.split('.')[0])
+          // Execute the Python code as a child process
+          const pythonProcess = spawn('python', ['temp.py', projectpath]);
+          let output = '';
+    
+          pythonProcess.stdout.on('data', (data) => {
+            output += data;
+          });
+    
+          pythonProcess.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+          });
+    
+          pythonProcess.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+            const projectPath = path.join(__dirname, 'uploads', originalName.split('.')[0]);
+            const observationsPath = path.join(__dirname, 'observations.json');
+            // Reads the observations file generated by the Python script
+            fs.readFile(observationsPath, (err, data) => {
+              if (err) {
+                console.error(`Error reading observations file: ${err}`);
+                return res.status(500).json({
+                  message: 'Error reading observations file',
+                });
+              }
+    
+              const observations = JSON.parse(data);
+              return res.status(200).json({
+                message: 'Zip file extracted successfully',
+                originalName: originalName,
+                fileType: fileType,
+                filename: file.filename,
+                projectPath: projectpath,
+                observations: observations,
+              });
+            });
+          });
+        } else {
+          fs.unlinkSync(file.path);
+          return res.status(400).json({
+            message: 'Zip file does not contain the required files',
+          });
+        }
+      } else {
+        return res.status(200).json({   // returns success message with required information
+          message: 'File uploaded successfully',
+          originalName: originalName,
+          fileType: fileType,
+          filename: file.filename,
+          path: path.join(__dirname, '..', file.path),
+        });
+      }
+    });
+
+    // return res.status(200).json({
+    //   message: 'Zip file downloaded and extracted successfully',
+    //   filename: filename,
+    //   filepath: filepath,
+    // });
+
+  } catch (error) {
+    console.error('Failed to fetch zip file from GitHub:', error);
+    return res.status(500).json({
+      message: 'Failed to fetch zip file from GitHub',
+    });
+  }
+});
+
+
+
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');

@@ -3,6 +3,7 @@ import os
 import re
 import sys
 import json
+import subprocess
 
 # Regular expressions to identify #include statements, find_package statements, and target_link_libraries statements
 library_regex = r'#include\s*(?:<(.+?)>|\"(.+?)\")'
@@ -50,9 +51,25 @@ for root, dirs, files in os.walk(project_directory):
                         if lib_name:
                             link_lib.add(lib_name)
 
+libraries_with_version = set()
+
+for lib_name in libraries:
+    # Ignore any library that is not installed as a system library
+    if lib_name.startswith("boost_") or lib_name.startswith("qt5") or lib_name.startswith("Qt5"):
+        continue
+    # Use pkg-config to get the version number of the library
+    try:
+        output = subprocess.check_output(["pkg-config", "--modversion", lib_name])
+        print(lib_name)
+        version = output.decode().strip()
+        libraries_with_version.add(f"{lib_name} {version}")
+    except subprocess.CalledProcessError:
+        # Ignore any libraries that cannot be found by pkg-config
+        pass
+
 # Write the identified libraries, required packages, and target-link-libraries to a JSON file
 output_file = "observations.json"
-data = {"identified_header_libraries": list(libraries),
+data = {"identified_header_libraries": list(libraries_with_version),
         "required_packages": list(package_names),
         "target_link_libraries": list(filter(lambda lib: lib not in package_names, link_lib))}
 

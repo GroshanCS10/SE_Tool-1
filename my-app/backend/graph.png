@@ -1,0 +1,35 @@
+{
+    "identified_header_libraries": [
+        "route_planner.h",
+        "fstream",
+        "string",
+        "unordered_map",
+        "string_view",
+        "gtest/gtest.h",
+        "../src/route_model.h",
+        "../src/route_planner.h",
+        "assert.h",
+        "render.h",
+        "route_model.h",
+        "optional",
+        "io2d.h",
+        "iostream",
+        "cstddef",
+        "pugixml.hpp",
+        "algorithm",
+        "model.h",
+        "cmath",
+        "limits",
+        "vector"
+    ],
+    "required_packages": [
+        "io2d",
+        "Cairo",
+        "GraphicsMagick"
+    ],
+    "target_link_libraries": [
+        "pthread",
+        "OSM_A_star_search",
+        "PUBLIC"
+    ]
+}

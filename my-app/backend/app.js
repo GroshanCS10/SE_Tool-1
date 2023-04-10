@@ -119,7 +119,9 @@ app.post('/api/link', async(req, res) => {
   try {
     // Extract the username and repository name from the link
     const [, , , username, repository] = link.split('/');
+    console.log(`username: ${username}`)
     const apiUrl = `https://api.github.com/repos/${username}/${repository}/zipball`;
+    console.log(`repository: ${apiUrl}`)
 
     // Make a request to the GitHub API to get the download URL for the repository
     const fetch = await import('node-fetch');

@@ -69,9 +69,10 @@ for lib_name in libraries:
 
 # Write the identified libraries, required packages, and target-link-libraries to a JSON file
 output_file = "observations.json"
-data = {"identified_header_libraries": list(libraries_with_version),
+data = {"identified_header_libraries": list(libraries),
         "required_packages": list(package_names),
-        "target_link_libraries": list(filter(lambda lib: lib not in package_names, link_lib))}
+        "target_link_libraries": list(filter(lambda lib: lib not in package_names, link_lib)),
+        "Libraries_with_version": list(libraries_with_version)}
 
 with open(output_file, "w") as f:
     json.dump(data, f, indent=4)

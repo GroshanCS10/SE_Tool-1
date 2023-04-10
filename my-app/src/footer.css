@@ -1,41 +1,51 @@
 #main-footer {
-    background-color:#494747;
-    padding: 20px;
-    font-family: poppins;
-    text-align: center;
-  }
-  
-  .footer-content {
-    display: flex;
-    text-align: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .names-list {
-    display:flex;
-    flex-direction: row;
-    color: #fff;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    flex-basis: 50%;
-  }
-  
-  
-.download-link {
-    color: #fff;
-    text-decoration: none;
-    border: 1px solid #333;
-    border-radius: 5px;
-    padding: 5px 10px;
+  background-color: #494747;
+  padding: 20px;
+  font-family: poppins;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.names-list {
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-basis: 50%;
 }
 
 .names-list li {
-    margin-left: 20px;
-  }
+  margin-left: 20px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.names-list li span {
+  margin-right: 5px;
+}
+
+.names-list li a {
+  color: #fff;
+}
+
+.download-link {
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
 
 .download-link:hover {
-    background-color: #2f2929;
-    color: #fff;
+  background-color: #2f2929;
+  color: #fff;
 }

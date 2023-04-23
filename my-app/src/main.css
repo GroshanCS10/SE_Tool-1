@@ -44,8 +44,8 @@ body {
     justify-content: center;
     align-items: center;
     height: calc(100vh - 143px);
-    transform: scale(1.9);
-    margin-top: -100px;
+    transform: scale(1.8);
+    margin-top: -50px;
 }
 
 
@@ -54,9 +54,17 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+}
+
+.upload{
+    align-items: center;
+    justify-content: center;
     border: 2px solid #fff;
     border-radius: 5px;
-    padding: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
 
 .form input[type="file"] {
@@ -85,6 +93,26 @@ background-color: #347d15;
     margin-left: auto;
     margin-right: auto;
     margin-top: 6%;
+}
+
+.link button[type="submit"],
+button {
+background-color: #6CC644;
+color: #fff;
+border: none;
+margin-left: 10px;
+padding: 10px 30px;
+cursor: pointer;
+border-radius: 5px;
+}
+
+.link button[type="submit"]:hover,
+button:hover {
+background-color: #347d15;
+}
+
+.link input[type="file"] {
+    color: #a1a99d;
 }
 
 .Data{
@@ -117,6 +145,7 @@ background-color: #347d15;
     font-family: Poppins,'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular','Lucida Sans', Geneva, Verdana, sans-serif;
     font-weight:bolder;
 }
+
 
 .definition p {
     color: #EDE9D5;
@@ -156,4 +185,10 @@ background-color: #347d15;
     margin-top: 20px;
     margin-left: 40px;
     margin-right: 40px;
+}
+.Loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 143px);
 }

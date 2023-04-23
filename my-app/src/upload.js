@@ -69,7 +69,7 @@ function App() {
       // console.log(renderImg)
       setShowNewButton(true);
     } catch (error) {
-       console.log(error.response.data);
+      console.log(error.response.data);
     }
 
     setIsLoading(false);
@@ -92,9 +92,9 @@ function App() {
             <input type="file" onChange={handleFileInputChange} />
             <button type="submit">Upload</button>
           </form>
-          
+
           <form className="link" onSubmit={handleLinkSubmit}>
-            <input type="text" onChange={handleLinkInputChange} placeholder='Paste the git repo link here'/>
+            <input type="text" onChange={handleLinkInputChange} placeholder='Paste the git repo link here' />
             <button type="submit">Submit</button>
           </form>
         </div>
@@ -106,7 +106,6 @@ function App() {
           </div>
         )}
         {data && <Display data={data} />}
-        {showNewButton && <button type="button">New Button</button>}
       </div>
       <div className='definitions-container'>
         <div className='definition'>

@@ -207,10 +207,11 @@ export default function DataDisplay(props) {
 
       {/* </div> */}
 
-      <button onClick={download}>Download Data</button>
+      
 
       {/* Render other data */}
       <div className="div-container">
+      <button onClick={download}>Download Data</button>
         <div className="box">
           <div className="subbox">
             <h2>Identified Header Libraries</h2>
@@ -233,7 +234,7 @@ export default function DataDisplay(props) {
               <li key={index} className="list">
                 {pkg}
                 {(
-                  <span className="package-data">
+                  <span className="package-data" style={{ color: "yellow" }} >
                     : {getPackageData(pkg)}
                   </span>
                 )}

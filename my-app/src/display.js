@@ -242,18 +242,16 @@ export default function DataDisplay(props) {
           </ul>
         </div>
 
-        <div className="box">
-          <div className="subbox">
-            <h2>Target Link Libraries</h2>
-          </div>
-          <ul>
-            {target_link_libraries.map((library, index) => (
-              <li key={index} className="list">
-                {library}
-              </li>
-            ))}
-          </ul>
+      <div className="box" style={{ marginRight: '20px' }}>
+        <div className='subbox'>
+          <h2>Target Link Libraries</h2>
         </div>
+        <ul>
+          {target_link_libraries.map((library, index) => (
+            <li key={index} className='list'>{library}</li>
+          ))}
+        </ul>
+      </div>
 
         <div className="box">
           <div className="subbox">

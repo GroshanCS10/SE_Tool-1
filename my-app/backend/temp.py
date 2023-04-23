@@ -6,6 +6,9 @@ import json
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
+
+
 # Define the graph
 G = nx.DiGraph()
 
@@ -15,6 +18,13 @@ find_package_regex = r'find_package\s*\(\s*([^\s\)]+)\)'
 link_regex = r'target_link_libraries\((.*)\)'
 cmake_minimum_regex = r'cmake_minimum_required\(VERSION\s*(\d+\.\d+(\.\d+)?)\)'
 set_cpp_standard_regex = r'set\(CMAKE_CXX_STANDARD\s+(\d+)\)'
+
+# List of STL libraries in C++
+stl_libraries = ["algorithm", "numeric", "execution", "functional", "iterator", "memory",
+                  "utility", "type traits", "limits", "compare", "charconv", "random", "ratio",
+                  "complex", "valarray", "array", "tuple", "bitset", "deque", "forward list",
+                  "list", "queue", "stack", "set", "map", "unordered set", "unordered map",
+                  "priority queue", "string", "string view", "regular expressions", "filesystem", "iostream", "vector","regex"]
 
 # Checking if a project directory is specified as a command-line argument
 if len(sys.argv) < 2:
@@ -28,6 +38,7 @@ package_names = set()
 link_lib = set()
 cmake_version_matches = []
 cpp_standard_matches = []
+identified_stl_libraries = set()
 
 # Loop through each file in the project directory and its subdirectories
 for root, dirs, files in os.walk(project_directory):
@@ -46,6 +57,8 @@ for root, dirs, files in os.walk(project_directory):
                     for lib_name in match:
                         if lib_name:
                             libraries.add(lib_name)
+                            if lib_name in stl_libraries:
+                                identified_stl_libraries.add(lib_name)
                             dependencies.add(lib_name)
                 G.add_node(file)
                 # Add edges between the file and its dependencies
@@ -72,24 +85,52 @@ for root, dirs, files in os.walk(project_directory):
                                 G.add_edge(package_name, lib_name)
 
 # Write the identified libraries, required packages, target-link-libraries, cmake minimum required version, and C++ standard version to
+#identified_stl_libraries = sorted(list(identified_stl_libraries))
 
-output_file = "observations.json"
 data = {"identified_header_libraries": list(libraries),
         "required_packages": list(package_names),
         "target_link_libraries": list(filter(lambda lib: lib not in package_names, link_lib)),
+        "identified_stl_libraries": list(identified_stl_libraries),
         "cmake_minimum_required_version": cmake_version_matches[0] if len(cmake_version_matches) > 0 else "",
-        "cpp_standard": cpp_standard_matches[0] if len(cpp_standard_matches) > 0 else ""}
+        "cpp_standard": cpp_standard_matches[0] if len(cpp_standard_matches) > 0 else ""
+        }
 
 # Draw the graph
+plt.figure(figsize=(10, 10))
 pos = nx.spring_layout(G,seed=42)
 nx.draw(G, pos, with_labels=True, font_size=10, font_weight='bold', node_color='lightblue', node_size=500, edge_color='gray')
+# output_file = "observations.json"
 
-# Save the graph
+output_file = "observations.json"
+# plt.savefig(output_file)
+# plt.savefig("../src/img/graph.png")
+# plt.show()
+# plt.savefig("graph.png")
+
+#plt.show()
+
+plt.savefig("../src/img/graph.png")
+
 output_file = "graph.png"
-plt.savefig(output_file)
 plt.show()
+
 with open(output_file, "w") as f:
     json.dump(data, f, indent=4)
 
+# Save the graph
+# output_file = "graph.png"
+# plt.savefig(output_file)
+# plt.savefig("graph.png")
+# plt.savefig("../src/img/graph.png")
+#output_file = "temp.png"
+# plt.show()
+
+# plt.savefig("../src/img/graph.png")
+# plt.savefig("graph.png")
+
+
+
+# plt.savefig("../src/img/graph.png")
+# plt.show()
 # Print the path to the output file
 print(f"Results written to {output_file}")

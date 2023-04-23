@@ -7,6 +7,7 @@ function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [link, setLink] = useState("");
   const [data, setData] = useState(null);
+  const [renderImg, setRenderImg] = useState(false)
 
   const handleFileInputChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -28,6 +29,8 @@ function App() {
       const response = await axios.post("/api/upload", formData);
       console.log(response.data);
       setData(response.data.observations);
+      setRenderImg(true);
+      // console.log(renderImg)
     } catch (error) {
       console.log(error.response.data);
     }
@@ -51,8 +54,11 @@ function App() {
       const response = await axios.post("/api/link", { link: link });
       console.log(response.data);
       setData(response.data.observations);
+      console.log(data)
+      setRenderImg(true);
+      // console.log(renderImg)
     } catch (error) {
-      console.log(error.response.data);
+       console.log(error.response.data);
     }
   };
   
@@ -79,7 +85,10 @@ function App() {
         </form>
       </div>
       <div className='Data'>
-      {data && <Display data={data} />}
+      {/* {renderImg && <img src="./img/temp.png" height="20" width="20" alt="Dependency graph"/>} */}
+      {console.log(renderImg)}
+      {renderImg && <Display data={data} render={renderImg} />}
+      {/* {renderImg && <img src="./img/temp.png" height="20" width="20" alt="Dependency graph"/>} */}
       </div>
       <div className='definitions-container'>
         <div className='definition'>

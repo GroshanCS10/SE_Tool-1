@@ -17,6 +17,7 @@
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^3.3.1",
     "nodemon": "^2.0.21",
+    "retry": "^0.13.1",
     "unzipper": "^0.10.11"
   }
 }

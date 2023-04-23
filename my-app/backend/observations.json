@@ -1,1 +1,72 @@
-{"identified_header_libraries": ["limits", "assert.h", "route_model.h", "cmath", "model.h", "string_view", "string", "vector", "pugixml.hpp", "cstddef", "../src/route_planner.h", "fstream", "unordered_map", "gtest/gtest.h", "route_planner.h", "render.h", "iostream", "io2d.h", "../src/route_model.h", "optional", "algorithm"], "required_packages": ["io2d", "GraphicsMagick", "Cairo"], "target_link_libraries": ["PUBLIC", "OSM_A_star_search", "pthread"]}
+{
+    "identified_header_libraries": [
+        "sstream",
+        "deque",
+        "elfio/elfio_symbols.hpp",
+        "cstring",
+        "algorithm",
+        "elfio_c_wrapper.h",
+        "elfio/elfio_version.hpp",
+        "elfio/elfio_header.hpp",
+        "elfio/elfio.hpp",
+        "cstdlib",
+        "iostream",
+        "elfio/elfio_modinfo.hpp",
+        "string",
+        "ostream",
+        "vector",
+        "elfio/elfio_dynamic.hpp",
+        "limits",
+        "gtest/gtest.h",
+        "elfio/elf_types.hpp",
+        "elfio/elfio_segment.hpp",
+        "fstream",
+        "elfio/elfio_dump.hpp",
+        "elfio/elfio_note.hpp",
+        "cstdint",
+        "functional",
+        "iomanip",
+        "array",
+        "memory",
+        "elfio/elfio_versym.hpp",
+        "elfio/elfio_utils.hpp",
+        "elfio/elfio_array.hpp",
+        "elfio/elfio_relocation.hpp",
+        "regex",
+        "elfio/elfio_section.hpp",
+        "elfio/elfio_strings.hpp",
+        "new"
+    ],
+    "required_packages": [
+        "elfio"
+    ],
+    "target_link_libraries": [
+        "add_section",
+        "tutorial",
+        "writer",
+        "anonymizer",
+        "proc_mem",
+        "elfdump",
+        "elfio::elfio",
+        "write_obj",
+        "PRIVATE",
+        "c_example"
+    ],
+    "identified_stl_libraries": [
+        "string",
+        "deque",
+        "limits",
+        "algorithm",
+        "vector",
+        "regex",
+        "functional",
+        "array",
+        "memory",
+        "iostream"
+    ],
+    "cmake_minimum_required_version": [
+        "3.10",
+        ""
+    ],
+    "cpp_standard": "14"
+}

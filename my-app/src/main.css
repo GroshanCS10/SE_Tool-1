@@ -157,3 +157,10 @@ background-color: #347d15;
     margin-left: 40px;
     margin-right: 40px;
 }
+
+.graph{
+    width: '500px'!important;
+    height: '500px'!important;
+    margin-left: auto;
+    margin-right: auto;
+}

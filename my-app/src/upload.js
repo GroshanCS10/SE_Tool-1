@@ -106,7 +106,7 @@ function App() {
           </div>
         )}
         {data && <Display data={data} />}
-        {showNewButton && <button type="button">New Button</button>}
+        {/* {showNewButton && <button type="button">New Button</button>} */}
       </div>
       <div className='definitions-container'>
         <div className='definition'>
